@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Management Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap');
+
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-purple-100 via-purple-50 to-purple-200 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-purple-500 to-purple-700 text-white py-12 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-5xl font-bold mb-4 animate__animated animate__fadeIn font-display">Welcome to Your Study Management Tool</h1>
+            <p class="text-xl mb-8 animate__animated animate__fadeIn animate__delay-1s font-sans">Efficiently manage your study tasks, track progress, and access your learning resources with ease.</p>
+
+            <nav>
+                <ul class="flex justify-center space-x-12 text-lg font-semibold">
+                    <li>
+                        <a href="{% url 'login' %}" class="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-400 transition-all transform hover:scale-105 shadow-lg">Log In</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12 text-purple-800 font-display">Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Schedule -->
+                <div class="feature-card hover:scale-105 transition-all transform p-6 bg-white rounded-lg shadow-lg hover:bg-purple-200 hover:text-purple-900">
+                    <i class="fas fa-calendar-alt text-6xl text-purple-600 mb-6 hover:text-purple-700 transition-all"></i>
+                    <h3 class="text-2xl font-bold mb-4 font-display">Class Schedule</h3>
+                    <p class="font-sans">Stay on top of your academic schedule by managing your classes and setting reminders for important dates.</p>
+                </div>
+                <!-- Repository -->
+                <div class="feature-card hover:scale-105 transition-all transform p-6 bg-white rounded-lg shadow-lg hover:bg-purple-200 hover:text-purple-900">
+                    <i class="fas fa-folder-open text-6xl text-purple-600 mb-6 hover:text-purple-700 transition-all"></i>
+                    <h3 class="text-2xl font-bold mb-4 font-display">Study Repository</h3>
+                    <p class="font-sans">Keep all your study materials, notes, and resources in one easily accessible place.</p>
+                </div>
+                <!-- Goals -->
+                <div class="feature-card hover:scale-105 transition-all transform p-6 bg-white rounded-lg shadow-lg hover:bg-purple-200 hover:text-purple-900">
+                    <i class="fas fa-trophy text-6xl text-purple-600 mb-6 hover:text-purple-700 transition-all"></i>
+                    <h3 class="text-2xl font-bold mb-4 font-display">Goal Setting</h3>
+                    <p class="font-sans">Set your academic goals, track your progress, and celebrate your achievements.</p>
+                </div>
+                <!-- Tips -->
+                <div class="feature-card hover:scale-105 transition-all transform p-6 bg-white rounded-lg shadow-lg hover:bg-purple-200 hover:text-purple-900">
+                    <i class="fas fa-lightbulb text-6xl text-purple-600 mb-6 hover:text-purple-700 transition-all"></i>
+                    <h3 class="text-2xl font-bold mb-4 font-display">Study Tips</h3>
+                    <p class="font-sans">Learn time management strategies, effective study methods, and tips to improve focus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-purple-900 text-white text-center py-8">
+        <p>© 2024 Study Management Tool. All Rights Reserved.</p>
+        <div class="social-media mt-6">
+            <a href="https://www.facebook.com" class="text-white mx-6 text-2xl"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.twitter.com" class="text-white mx-6 text-2xl"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com" class="text-white mx-6 text-2xl"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com" class="text-white mx-6 text-2xl"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
