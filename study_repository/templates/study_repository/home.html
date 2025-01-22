@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Repository</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 shadow-lg">
+      <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <h1 class="text-3xl font-semibold">Study Repository</h1>
+        <a
+          href="{% url 'index' %}"
+          class="bg-white text-blue-600 px-6 py-3 rounded-lg shadow-md hover:bg-blue-100 transition duration-200"
+        >
+          Back to Dashboard
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto mt-8 px-4">
+      
+      <!-- Navigation -->
+      {% if current_folder %}
+      <div class="mb-4">
+        {% if current_folder.parent %}
+        <a
+          href="{% url 'study_repository:home' current_folder.parent.id %}"
+          class="text-blue-500 hover:underline flex items-center"
+        >
+          <svg
+            class="w-5 h-5 mr-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
+          Back
+        </a>
+        {% else %}
+        <a
+          href="{% url 'study_repository:home' %}"
+          class="text-blue-500 hover:underline flex items-center"
+        >
+          <svg
+            class="w-5 h-5 mr-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
+          Back to Root
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <!-- Folder and File Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for folder in folders %}
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+          <h2 class="font-semibold text-xl">{{ folder.name }}</h2>
+          <div class="mt-2">
+            <a
+              href="{% url 'study_repository:home' folder.id %}"
+              class="text-blue-600 hover:text-blue-800"
+            >
+              View Folder
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+        {% for file in files %}
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+          <h2 class="font-semibold text-xl">{{ file.name }}</h2>
+          <div class="mt-2">
+            <a href="{{ file.file.url }}" class="text-blue-600 hover:text-blue-800" download>Download</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Folder Creation Form -->
+      <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="font-semibold text-lg mb-4">Create a Folder</h3>
+        <form method="post" class="space-y-4" action="{% if current_folder %}{% url 'study_repository:create_folder' parent_id=current_folder.id %}{% else %}{% url 'study_repository:create_folder' parent_id=0 %}{% endif %}">
+          {% csrf_token %}
+          {{ folder_form.as_p }}
+          <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
+            Create Folder
+          </button>
+        </form>
+      </div>
+
+      <!-- File Upload Form -->
+      <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="font-semibold text-lg mb-4">Upload a File</h3>
+        <form method="post" enctype="multipart/form-data" action="{% if current_folder %}{% url 'study_repository:upload_file' parent_id=current_folder.id %}{% else %}{% url 'study_repository:upload_file' parent_id=0 %} {% endif %}">
+          {% csrf_token %}
+          {{ file_form.as_p }}
+          <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
+            Upload File
+          </button>
+        </form>
+      </div>
+
+      <!-- Edit and Delete Buttons for Folder and File -->
+      {% for folder in folders %}
+      <div class="bg-white p-6 rounded-lg shadow-lg mt-6">
+        <h2 class="font-semibold text-xl">{{ folder.name }}</h2>
+        <div class="mt-2">
+          <a href="{% url 'study_repository:home' folder.id %}" class="text-blue-600">View Folder</a>
+        </div>
+        <div class="mt-4 flex space-x-4">
+          <a href="{% url 'study_repository:edit_folder' folder.id %}" class="text-yellow-600 hover:text-yellow-800">Edit</a>
+          <form method="post" action="{% url 'study_repository:delete_folder' folder.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="text-red-600 hover:text-red-800">Delete</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+
+      {% for file in files %}
+      <div class="bg-white p-6 rounded-lg shadow-lg mt-6">
+        <h2 class="font-semibold text-xl">{{ file.name }}</h2>
+        <div class="mt-2">
+          <a href="{{ file.file.url }}" class="text-blue-600 hover:text-blue-800" download>Download</a>
+        </div>
+        <div class="mt-4 flex space-x-4">
+          <a href="{% url 'study_repository:edit_folder' file.folder.id %}" class="text-yellow-600 hover:text-yellow-800">Edit Folder</a>
+          <form method="post" action="{% url 'study_repository:delete_file' file.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="text-red-600 hover:text-red-800">Delete File</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+
+    </main>
+  </body>
+</html>

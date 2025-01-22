@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Folder</title>
+</head>
+<body>
+    <h1>Are you sure you want to delete the folder "{{ folder.name }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+        <!-- Adjusted Cancel link logic -->
+        {% if folder.parent %}
+            <a href="{% url 'study_repository:home' folder.parent.id %}">Cancel</a>
+        {% else %}
+            <a href="{% url 'study_repository:home' %}">Cancel</a>
+        {% endif %}
+    </form>
+</body>
+</html>
